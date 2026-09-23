@@ -86,7 +86,7 @@ this project's central discipline lives.
 ## Phase 6 — CI
 
 - [x] `.github/workflows/ci.yml`: lint + test on push/PR to `main`
-- [ ] Confirm CI is green on GitHub after the first push
+- [x] Confirm CI is green on GitHub after the first push (run 35907613860)
 - [x] Commit: "ci: add lint + test workflow" (in the Phase 0 scaffold)
 
 ## Phase 7 — Optional Writeup

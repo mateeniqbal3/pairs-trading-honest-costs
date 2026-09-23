@@ -91,7 +91,7 @@ report the strategy's Sharpe ratio, drawdown, and other standard metrics
       addressed concretely, not just listed
 - [x] Honest "what didn't work / limitations" section in the README —
       framed as a positive signal of rigor, not hedging
-- [ ] CI pipeline (lint + test) — workflow in place; green run pending the first push
+- [x] CI pipeline (lint + test) — green on the first push (GitHub Actions run 35907613860, commit a454429)
 - [x] README structured per §9 exactly
 
 ## 5. Dataset — Free/Public Sources Only
