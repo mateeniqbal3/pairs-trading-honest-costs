@@ -58,12 +58,13 @@ this project's central discipline lives.
 
 ## Phase 4 — Backtest (gross of costs)
 
-- [ ] Write `src/backtest.py`: simple event-driven-in-spirit backtesting
+- [x] Write `src/backtest.py`: simple event-driven-in-spirit backtesting
       loop (a pandas/numpy vectorized backtest is fine at this project's
       scope) that trades the signal from Phase 3
-- [ ] Compute gross-of-costs metrics: total return, Sharpe ratio, max
+- [x] Compute gross-of-costs metrics: total return, Sharpe ratio, max
       drawdown, win rate, number of trades
-- [ ] `tests/test_backtest.py`
+- [x] `tests/test_backtest.py`
+- [x] Record and freeze the gross result before any cost code (ADR-010)
 - [ ] Commit: "feat: gross-of-costs backtest"
 
 ## Phase 5 — Realistic Transaction Costs (the central discipline)

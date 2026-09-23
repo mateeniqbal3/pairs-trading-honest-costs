@@ -431,7 +431,75 @@ later than the literal wording would, and usually sooner.
 
 ---
 
-## ADR-010: [Template for future ADRs]
+## ADR-010: Gross backtest accounting details, and freezing the gross result
+
+**Status:** Accepted — 2026-09-23 (recorded before the backtest was run on any real data)
+
+**Context:** ADR-006 fixes execution timing, capital, and position
+sizing but leaves several accounting details open. These affect the
+numbers, so they are fixed before the first run. The project's central
+comparison also requires that the gross result cannot be adjusted after
+the costed result has been seen.
+
+**Decision — accounting (applies identically to the gross and net runs):**
+
+| Item | Implemented rule | Reason |
+|---|---|---|
+| Execution | The target position decided at the close of day t (ADR-009) is executed at the close of day t+1 | ADR-006 |
+| Leg sizing | $100,000 gross notional per trade: $100,000 / (1 + beta) in EOG and $100,000 × beta / (1 + beta) in FANG, with the formation beta = 0.7423 | ADR-006 |
+| Share counts | Whole shares, rounded down, computed from the *unadjusted* close at execution: `floor(leg notional / Close)`. Held fixed until exit | Real orders are for whole shares at real prices. Phase 5 commissions are per share |
+| P&L | Each leg's value moves with its *adjusted* close from the execution day: `invested × (AdjClose_t / AdjClose_exec)`, where `invested = shares × Close_exec`. Long legs gain and short legs lose from dividends through the adjustment | Total-return accounting from free data. The short leg pays dividends |
+| Reversal | Closing one direction and opening the other on the same day counts as two trades (one exit, one entry) | Both would be real orders |
+| End of the trading period | Any open position is closed at the close of 2025-12-31. A target set on the final day is not executed, and no new position is opened on the final day | ADR-003; a position opened and closed on the same close has no P&L but would incur costs |
+| Capital and returns | $100,000, not compounded. Daily return = daily P&L / $100,000. Equity = $100,000 + cumulative P&L | ADR-006 |
+| Sharpe ratio | mean(daily return) / std(daily return, ddof = 1) × √252 over *every* trading-period day, including flat days, with a 0% risk-free rate | ADR-006; excluding flat days would flatter the ratio |
+| Max drawdown | Largest peak-to-trough fall of the equity curve, as a fraction of the peak | Standard |
+| Win rate | Share of round-trip trades with P&L > 0. The forced final close counts as a trade | Stated so it is not ambiguous |
+| Turnover | Total traded notional (both legs, entries and exits) / $100,000 / years | Needed to explain cost drag in Phase 5 |
+
+**Decision — freezing the gross result:** the gross backtest is run and
+recorded (`docs/results_gross.md` and `docs/results_gross.json`, with the
+SHA-256 of the JSON written into this ADR) **before any cost model code
+is written or run**. After that point the gross result, and every input
+to it (pair, beta, thresholds, window, accounting rules above), may not
+change because of what the net result shows. The net run must reuse the
+identical executions and trades, and only subtract costs. If a genuine
+bug is later found in the gross calculation, the fix is recorded as a
+new ADR stating the original and corrected gross numbers side by side,
+and both remain published.
+
+**Consequences:** Whole-share rounding leaves each trade slightly below
+$100,000 of gross notional. Total-return accounting from adjusted closes
+approximates dividend reinvestment rather than modeling cash dividends
+exactly.
+
+**Frozen gross result (recorded 2026-09-23, before any cost model code
+was written):** `docs/results_gross.json` SHA-256
+`1acbfd35e8c899173a6e4cb355942cc5485bf01d5ac5d0bfc419d429746df853`.
+Re-running `scripts/run_backtest_gross.py` on the same raw snapshot
+reproduces this hash exactly.
+
+| Metric (EOG/FANG, 2021-01-04 to 2025-12-31, gross) | Value |
+|---|---:|
+| Total P&L on $100,000 | +$3,253.41 (+3.25%) |
+| Annualized return / volatility | 0.65% / 8.29% |
+| Sharpe ratio | 0.08 |
+| Max drawdown | −11.35% |
+| Round-trip trades | 20 (1 closed at the end of the period) |
+| Win rate | 60.0% |
+| Average P&L per trade | +$162.67 |
+| Average holding period | 28.1 trading days |
+| Time in market | 44.7% |
+| Turnover | 8.1× capital per year |
+
+Verification: two trades (#18 and #20) were recomputed independently
+from the raw prices and match to the cent. Every entry follows a close
+with |z| ≥ 2.0, in the correct direction, one day earlier. Trade-level
+P&L sums to daily P&L.
+
+---
+
+## ADR-011: [Template for future ADRs]
 
 **Status:** Proposed / Accepted / Superseded / Rejected
 

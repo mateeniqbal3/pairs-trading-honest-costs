@@ -9,9 +9,9 @@
 > net-of-cost performance side by side from the same trades, and explains
 > the mechanism behind any difference.
 
-**Status:** work in progress. Pair selection and the out-of-sample
-stability check are complete; no backtest has been run, so no performance
-results are reported below.
+**Status:** work in progress. Pair selection, the out-of-sample
+stability check, and the gross-of-costs backtest are complete. The
+net-of-costs result has not been computed yet.
 
 > **Multiple-testing disclosure: no pair survives correction.** All 28
 > pairs in the candidate universe were tested for cointegration over the
@@ -87,15 +87,18 @@ and held fixed for trading. Full table:
 
 ## Results
 
-<!-- TODO: embed docs/results.md content here once Phase 5 completes. -->
+Trading period 2021–2025, EOG/FANG, $100,000 gross notional per trade.
+The gross column was recorded and frozen before any cost model was
+written ([`DECISIONS.md`](DECISIONS.md) ADR-010). Every trade is listed in
+[`docs/results_gross.md`](docs/results_gross.md).
 
 | Metric | Gross of costs | Net of costs |
 |---|---|---|
-| Total return | TBD | TBD |
-| Sharpe ratio | TBD | TBD |
-| Max drawdown | TBD | TBD |
-| Win rate | TBD | TBD |
-| Number of trades | TBD | TBD |
+| Total return | +3.25% | not yet computed |
+| Sharpe ratio | 0.08 | not yet computed |
+| Max drawdown | −11.35% | not yet computed |
+| Win rate | 60.0% | not yet computed |
+| Number of trades | 20 | 20 (same trades) |
 
 **Why the numbers differ:** _TBD — a specific, mechanistic explanation
 (e.g. trade frequency at the chosen threshold multiplied by per-trade
@@ -138,7 +141,7 @@ cd pairs-trading-honest-costs
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-bash scripts/run_pipeline.sh   # not implemented yet
+bash scripts/run_pipeline.sh   # runs through the gross backtest; costs not implemented yet
 ```
 
 ## Testing

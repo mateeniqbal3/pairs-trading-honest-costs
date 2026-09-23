@@ -19,6 +19,9 @@ All notable changes to this project are documented here. Loosely follows
 - Z-score signal (`src/signal.py`) with a look-ahead test; exit-rule
   clarification recorded as ADR-009
 - ADR-008: continue with EOG/FANG although no pair survives Holm correction
+- Gross-of-costs backtest (`src/backtest.py`, `scripts/run_backtest_gross.py`):
+  EOG/FANG 2021–2025, +3.25% total, Sharpe 0.08, max drawdown −11.35%,
+  20 trades; frozen before any cost code (ADR-010)
 
 ### Fixed
 - Rolling z-score computed directly from each window, avoiding the

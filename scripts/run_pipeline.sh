@@ -13,6 +13,9 @@ python scripts/select_pair.py "$@"
 # Out-of-sample stability diagnostic for the selected pair (no trading).
 python scripts/stability_check.py
 
-echo "Pipeline incomplete: stopped after the stability check. Phases 4-5 (backtest," \
-     "costs) are not implemented yet (see TASKS.md)." >&2
+# Phase 4: gross-of-costs backtest (frozen before costs, ADR-010).
+python scripts/run_backtest_gross.py
+
+echo "Pipeline incomplete: stopped after the gross backtest. Phase 5" \
+     "(transaction costs) is not implemented yet (see TASKS.md)." >&2
 exit 1
