@@ -1,0 +1,256 @@
+{
+  "description": "Net-of-costs result on the frozen gross trade log (ADR-010, ADR-011).",
+  "gross_results_sha256": "1acbfd35e8c899173a6e4cb355942cc5485bf01d5ac5d0bfc419d429746df853",
+  "raw_file_sha256": "59106b32a3e642f557cc0c66578c386bf7c6eb0f48e9ecb9b017aa7e570823e2",
+  "cost_model": {
+    "half_spread_bps": 2.0,
+    "slippage_bps": 3.0,
+    "commission_per_share": 0.005,
+    "commission_min": 1.0,
+    "borrow_rate_annual": 0.003
+  },
+  "gross_metrics": {
+    "total_pnl": 3253.410198192403,
+    "total_return": 0.03253410198192403,
+    "annualized_return": 0.006532743983621404,
+    "annualized_volatility": 0.08286798300909153,
+    "sharpe_ratio": 0.07883314817623462,
+    "max_drawdown": -0.11354286441701021,
+    "n_trades": 20,
+    "win_rate": 0.6,
+    "avg_trade_pnl": 162.67050990962016,
+    "avg_holding_days": 28.05,
+    "turnover_per_year": 8.110319822184893,
+    "n_days": 1255,
+    "time_in_market": 0.4470119521912351,
+    "forced_closes": 1
+  },
+  "net_metrics": {
+    "total_pnl": 715.0877294651536,
+    "total_return": 0.007150877294651537,
+    "annualized_return": 0.0014358733691252465,
+    "annualized_volatility": 0.08289116814706478,
+    "sharpe_ratio": 0.01732239273764043,
+    "max_drawdown": -0.12277737555354476,
+    "n_trades": 20,
+    "win_rate": 0.6,
+    "avg_trade_pnl": 35.754386473257775,
+    "avg_holding_days": 28.05,
+    "turnover_per_year": 8.110319822184893,
+    "n_days": 1255,
+    "time_in_market": 0.4470119521912351,
+    "forced_closes": 1
+  },
+  "cost_breakdown": {
+    "spread": 807.81360133667,
+    "slippage": 1211.7204020050049,
+    "commission": 175.47,
+    "borrow": 343.3184653855733,
+    "total": 2538.322468727248
+  },
+  "dividends_within_gross": {
+    "long_leg": 6907.857805851893,
+    "short_leg": -6370.2619081966095
+  },
+  "traded_notional": 4039068.0066833496,
+  "breakeven_cost_multiplier": 1.2817166606194486,
+  "sensitivity": {
+    "0.0": {
+      "metrics": {
+        "total_pnl": 3253.410198192403,
+        "total_return": 0.03253410198192403,
+        "annualized_return": 0.006532743983621404,
+        "annualized_volatility": 0.08286798300909153,
+        "sharpe_ratio": 0.07883314817623462,
+        "max_drawdown": -0.11354286441701021,
+        "n_trades": 20,
+        "win_rate": 0.6,
+        "avg_trade_pnl": 162.67050990962016,
+        "avg_holding_days": 28.05,
+        "turnover_per_year": 8.110319822184893,
+        "n_days": 1255,
+        "time_in_market": 0.4470119521912351,
+        "forced_closes": 1
+      },
+      "total_cost": 0.0
+    },
+    "0.5": {
+      "metrics": {
+        "total_pnl": 1984.2489638287752,
+        "total_return": 0.019842489638287754,
+        "annualized_return": 0.003984308676373323,
+        "annualized_volatility": 0.08287601469031525,
+        "sharpe_ratio": 0.04807553417308474,
+        "max_drawdown": -0.11771022223220744,
+        "n_trades": 20,
+        "win_rate": 0.6,
+        "avg_trade_pnl": 99.2124481914389,
+        "avg_holding_days": 28.05,
+        "turnover_per_year": 8.110319822184893,
+        "n_days": 1255,
+        "time_in_market": 0.4470119521912351,
+        "forced_closes": 1
+      },
+      "total_cost": 1269.161234363624
+    },
+    "1.0": {
+      "metrics": {
+        "total_pnl": 715.0877294651536,
+        "total_return": 0.007150877294651537,
+        "annualized_return": 0.0014358733691252465,
+        "annualized_volatility": 0.08289116814706478,
+        "sharpe_ratio": 0.01732239273764043,
+        "max_drawdown": -0.12277737555354476,
+        "n_trades": 20,
+        "win_rate": 0.6,
+        "avg_trade_pnl": 35.754386473257775,
+        "avg_holding_days": 28.05,
+        "turnover_per_year": 8.110319822184893,
+        "n_days": 1255,
+        "time_in_market": 0.4470119521912351,
+        "forced_closes": 1
+      },
+      "total_cost": 2538.322468727248
+    },
+    "2.0": {
+      "metrics": {
+        "total_pnl": -1823.2347392620914,
+        "total_return": -0.018232347392620914,
+        "annualized_return": -0.0036609972453708933,
+        "annualized_volatility": 0.08294282293906002,
+        "sharpe_ratio": -0.04413880689906964,
+        "max_drawdown": -0.13306583077650144,
+        "n_trades": 20,
+        "win_rate": 0.6,
+        "avg_trade_pnl": -91.1617369631047,
+        "avg_holding_days": 28.05,
+        "turnover_per_year": 8.110319822184893,
+        "n_days": 1255,
+        "time_in_market": 0.4470119521912351,
+        "forced_closes": 1
+      },
+      "total_cost": 5076.644937454496
+    },
+    "3.0": {
+      "metrics": {
+        "total_pnl": -4361.557207989338,
+        "total_return": -0.04361557207989338,
+        "annualized_return": -0.008757867859867043,
+        "annualized_volatility": 0.08302289424574985,
+        "sharpe_ratio": -0.10548738320231929,
+        "max_drawdown": -0.1435650812339644,
+        "n_trades": 20,
+        "win_rate": 0.6,
+        "avg_trade_pnl": -218.07786039946706,
+        "avg_holding_days": 28.05,
+        "turnover_per_year": 8.110319822184893,
+        "n_days": 1255,
+        "time_in_market": 0.4470119521912351,
+        "forced_closes": 1
+      },
+      "total_cost": 7614.967406181745
+    }
+  },
+  "trades": [
+    {
+      "trade_id": 1,
+      "gross_pnl": -1617.9449678321,
+      "net_pnl": -1762.0568274312532
+    },
+    {
+      "trade_id": 2,
+      "gross_pnl": 4037.0972103775,
+      "net_pnl": 3905.8294192605335
+    },
+    {
+      "trade_id": 3,
+      "gross_pnl": 2491.9284770961,
+      "net_pnl": 2379.313918996461
+    },
+    {
+      "trade_id": 4,
+      "gross_pnl": 2591.4405620957,
+      "net_pnl": 2479.3879286210454
+    },
+    {
+      "trade_id": 5,
+      "gross_pnl": 1793.8106052411,
+      "net_pnl": 1685.1653349708763
+    },
+    {
+      "trade_id": 6,
+      "gross_pnl": -1147.7257609047,
+      "net_pnl": -1280.405553452806
+    },
+    {
+      "trade_id": 7,
+      "gross_pnl": 459.7430648718,
+      "net_pnl": 326.0556337793579
+    },
+    {
+      "trade_id": 8,
+      "gross_pnl": 1770.2250170472,
+      "net_pnl": 1639.7782337468257
+    },
+    {
+      "trade_id": 9,
+      "gross_pnl": 2022.2996317733,
+      "net_pnl": 1910.674452204304
+    },
+    {
+      "trade_id": 10,
+      "gross_pnl": -2574.1277523626,
+      "net_pnl": -2698.586692739025
+    },
+    {
+      "trade_id": 11,
+      "gross_pnl": 837.2457105996,
+      "net_pnl": 704.9309678376937
+    },
+    {
+      "trade_id": 12,
+      "gross_pnl": -1478.5389783614,
+      "net_pnl": -1612.8163636356232
+    },
+    {
+      "trade_id": 13,
+      "gross_pnl": -5673.5070525279,
+      "net_pnl": -5823.984432219615
+    },
+    {
+      "trade_id": 14,
+      "gross_pnl": 1955.7391090093,
+      "net_pnl": 1830.1458264853516
+    },
+    {
+      "trade_id": 15,
+      "gross_pnl": -3007.5716997999,
+      "net_pnl": -3152.6638423195154
+    },
+    {
+      "trade_id": 16,
+      "gross_pnl": 1283.9168148855,
+      "net_pnl": 1160.4442594331338
+    },
+    {
+      "trade_id": 17,
+      "gross_pnl": -25.0946344915,
+      "net_pnl": -140.03029036550083
+    },
+    {
+      "trade_id": 18,
+      "gross_pnl": 3811.2001290894,
+      "net_pnl": 3700.0499265493677
+    },
+    {
+      "trade_id": 19,
+      "gross_pnl": 1737.6349380433,
+      "net_pnl": 1618.7314276462246
+    },
+    {
+      "trade_id": 20,
+      "gross_pnl": -6014.3602256573,
+      "net_pnl": -6154.875597902681
+    }
+  ]
+}

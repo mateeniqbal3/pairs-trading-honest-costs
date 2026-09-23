@@ -69,16 +69,16 @@ this project's central discipline lives.
 
 ## Phase 5 — Realistic Transaction Costs (the central discipline)
 
-- [ ] Write `src/costs.py`: implement the pre-registered transaction cost
+- [x] Write `src/costs.py`: implement the pre-registered transaction cost
       model — bid-ask spread cost, a slippage assumption, and
       commission/fees if applicable to the chosen instruments
-- [ ] Apply this cost model to the SAME backtest from Phase 4, producing
+- [x] Apply this cost model to the SAME backtest from Phase 4, producing
       net-of-costs metrics using the identical signal and trades — only
       the cost treatment differs
-- [ ] Generate `docs/results.md`: the side-by-side gross vs. net table
+- [x] Generate `docs/results.md`: the side-by-side gross vs. net table
       from `PROJECT.md` §8, plus a concrete, specific explanation of why
       the numbers differ (not a vague "costs matter" statement)
-- [ ] Do NOT adjust the cost model, signal thresholds, or pair selection
+- [x] Do NOT adjust the cost model, signal thresholds, or pair selection
       after seeing this result in order to change the net-of-cost number
       — see `PROJECT.md` §2 and §11
 - [ ] Commit: "feat: realistic transaction cost model applied — see docs/results.md for gross vs. net comparison"

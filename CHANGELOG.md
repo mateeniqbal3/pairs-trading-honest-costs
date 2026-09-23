@@ -23,6 +23,10 @@ All notable changes to this project are documented here. Loosely follows
   EOG/FANG 2021–2025, +3.25% total, Sharpe 0.08, max drawdown −11.35%,
   20 trades; frozen before any cost code (ADR-010)
 
+- Net-of-costs result (`src/costs.py`, `scripts/run_backtest_net.py`) on the
+  frozen gross trades: +0.72% net vs +3.25% gross, Sharpe 0.02 vs 0.08;
+  costs $2,538 (78% of gross P&L); break-even at 1.28× costs (ADR-011, ADR-005)
+
 ### Fixed
 - Rolling z-score computed directly from each window, avoiding the
   rounding drift of pandas' online rolling algorithm

@@ -228,16 +228,30 @@ spread and slippage are assumptions, not measurements.
 
 ## ADR-005: The gross-vs-net finding
 
-**Status:** Open — filled in only from actual pipeline output
+**Status:** Accepted — 2026-09-23
 
 **Context:** This is the project's central result — see `PROJECT.md` §2.
 
-**Decision:** _Fill in the actual finding, precisely: gross Sharpe X, net
-Sharpe Y, driven primarily by [specific mechanism, e.g. trade frequency
-at the chosen threshold multiplied by per-trade cost]._
+**Decision (the finding, recorded 2026-09-23 from pipeline output; details in ADR-011 Part B):** Gross of costs, EOG/FANG earned +$3,253 (+3.25% over five years,
+Sharpe 0.08). Net of the pre-registered costs it earned +$715 (+0.72%,
+Sharpe 0.02). Costs of $2,538 took 78% of the gross P&L. The mechanism is
+that each round trip turns over about $202,000 of notional (entry and
+exit, both legs). At 5 bps per side for half-spread plus slippage, that
+alone costs about $101 per trade; with commissions ($9) and short borrow
+($17), the total is $127 per trade, against an average gross gain of
+only $163 per trade (8.1 bps of the notional traded). Net P&L reaches
+zero at 1.28× the base-case costs, and is negative at 2×. Neither the
+gross nor the net return is statistically distinguishable from zero
+(approximate t-statistics 0.18 and 0.04), and the pair itself was not
+statistically validated (ADR-008).
 
-**Consequences:** _Fill in: does the strategy remain profitable net of
-costs, or not? State this plainly and let it stand as reported._
+**Consequences:** the strategy stays marginally profitable net of the
+base-case costs (+0.72% over five years), but that profit is small
+compared with its risk (−12.28% maximum drawdown), is not statistically
+distinguishable from zero, and disappears if real costs are 28% higher
+than assumed. The honest reading is that a naive gross backtest of this
+pair showed a small, statistically weak positive result, and realistic
+costs removed about four-fifths of it. This stands as reported.
 
 ---
 
@@ -499,7 +513,99 @@ P&L sums to daily P&L.
 
 ---
 
-## ADR-011: [Template for future ADRs]
+## ADR-011: Net-of-costs run — cost mechanics and results
+
+**Status:** Accepted — 2026-09-23. Part A was recorded before any net
+number was computed; Part B holds the results.
+
+### Part A — how the ADR-004 cost model is applied
+
+**Context:** ADR-004 fixes the cost parameters. Their values are
+unchanged here. The owner's Phase 5 instruction listed "commission +
+half-spread + short borrow + dividend on short leg" and stated that the
+cost model is unchanged from day one. Two points needed reconciling, and
+a few mechanics ADR-004 does not state are fixed here, all before the
+net result was computed.
+
+**Decision:**
+
+- **Same trades, not regenerated:** the net run reads the 20 trades from
+  the frozen `docs/results_gross.json` (SHA-256 `1acbfd35…df853`,
+  verified at run time). It does not call the signal or the
+  trade-generation logic. Execution prices are the unadjusted closes on
+  each trade's recorded entry and exit dates, taken from the same raw
+  snapshot. Daily gross P&L is rebuilt from the trade log using the
+  ADR-010 formula. The run fails unless every trade's rebuilt P&L and
+  every frozen gross metric match the frozen values.
+- **Components (ADR-004 values, unchanged), charged per leg per order:**
+  half-spread 2 bps of traded notional; slippage 3 bps of traded notional;
+  commission `max($1.00, $0.005 × shares)`; short borrow 0.30% a year.
+- **Slippage stays in.** It is part of ADR-004, although the Phase 5
+  instruction list did not name it. Leaving it out would change the cost
+  model.
+- **Dividends on the short leg are not charged again.** Gross P&L already
+  uses dividend-adjusted closes (ADR-006, ADR-010), so the short leg
+  already pays every dividend, and the long leg already receives them.
+  Subtracting them again would double-count. The dividend amounts within
+  gross P&L are reported separately as a memo line.
+- **Borrow accrual:** each trading day a short position is held overnight
+  is charged `shares × unadjusted close on the previous day × 0.30% / 252`.
+  This uses the same trading-day basis as the other annualized metrics.
+- **Timing:** order costs are charged on the execution date; borrow is
+  charged on each held day. Net trade P&L = gross trade P&L − the
+  trade's order costs (entry and exit) − its borrow.
+- **Sensitivity:** as pre-registered, every component (including the $1
+  minimum and the borrow rate) is scaled by 0×, 0.5×, 1×, 2×, and 3×.
+  0× must reproduce the frozen gross result exactly. 1× is the headline.
+- **Regulatory fees** remain unmodeled (ADR-004).
+
+**Consequences:** These choices are fixed. They are not revisited after
+the net result is seen.
+
+### Part B — results (recorded 2026-09-23 from pipeline output)
+
+Produced by `scripts/run_backtest_net.py`. `docs/results_net.json` SHA-256
+`06540672fd0013278661e23f0e78996ba763b836e732a5a8a23d60db802e55ca`. Before
+applying costs, the run verified the frozen gross hash (`1acbfd35…`),
+that every rebuilt trade P&L and gross metric equals the frozen value,
+and that 0× costs reproduce the gross result exactly.
+`docs/results_gross.json` was not modified.
+
+| Metric (EOG/FANG, 2021–2025) | Gross | Net (1× base costs) |
+|---|---:|---:|
+| Total P&L | +$3,253.41 | +$715.09 |
+| Total return on $100,000 | +3.25% | +0.72% |
+| Annualized return / volatility | 0.65% / 8.29% | 0.14% / 8.29% |
+| Sharpe ratio | 0.08 | 0.02 |
+| Max drawdown | −11.35% | −12.28% |
+| Win rate | 60.0% | 60.0% |
+| Average P&L per trade | +$162.67 | +$35.75 |
+| Trades | 20 | 20 (identical) |
+
+| Cost component | Total | Share of costs |
+|---|---:|---:|
+| Half-spread (2 bps) | $807.81 | 32% |
+| Slippage (3 bps) | $1,211.72 | 48% |
+| Commission | $175.47 | 7% |
+| Short borrow | $343.32 | 14% |
+| **Total** | **$2,538.32** (78% of gross P&L) | |
+
+Traded notional was $4,039,068. Dividends already inside gross P&L (not
+charged again): −$6,370.26 paid on short legs and +$6,907.86 received on
+long legs.
+
+Sensitivity (pre-registered): net P&L +$3,253 at 0×, +$1,984 at 0.5×,
++$715 at 1×, −$1,823 at 2×, −$4,362 at 3×. Break-even is 1.28× the base
+costs.
+
+**Consequences:** the net result is positive but very small, and it
+depends on the cost assumptions: a 28% increase in costs erases it. As
+required by ADR-010, none of the gross inputs or the cost model were
+changed after this result was seen.
+
+---
+
+## ADR-012: [Template for future ADRs]
 
 **Status:** Proposed / Accepted / Superseded / Rejected
 

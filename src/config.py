@@ -31,3 +31,11 @@ MIN_OBSERVATIONS = 250  # sanity guard against broken data, not a research param
 ZSCORE_WINDOW = 60
 ENTRY_Z = 2.0
 EXIT_Z = 0.5
+
+# ADR-004 / ADR-011: transaction cost model (per leg, per order; unchanged since pre-registration).
+HALF_SPREAD_BPS = 2.0
+SLIPPAGE_BPS = 3.0
+COMMISSION_PER_SHARE = 0.005
+COMMISSION_MIN = 1.0
+BORROW_RATE_ANNUAL = 0.003
+COST_MULTIPLIERS = (0.0, 0.5, 1.0, 2.0, 3.0)  # 1.0 is the headline net result

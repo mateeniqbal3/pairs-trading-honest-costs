@@ -16,6 +16,5 @@ python scripts/stability_check.py
 # Phase 4: gross-of-costs backtest (frozen before costs, ADR-010).
 python scripts/run_backtest_gross.py
 
-echo "Pipeline incomplete: stopped after the gross backtest. Phase 5" \
-     "(transaction costs) is not implemented yet (see TASKS.md)." >&2
-exit 1
+# Phase 5: net of costs, charged on the frozen gross trade log (ADR-011).
+python scripts/run_backtest_net.py

@@ -9,9 +9,18 @@
 > net-of-cost performance side by side from the same trades, and explains
 > the mechanism behind any difference.
 
-**Status:** work in progress. Pair selection, the out-of-sample
-stability check, and the gross-of-costs backtest are complete. The
-net-of-costs result has not been computed yet.
+**Finding:** Gross of costs, EOG/FANG earned +$3,253 (+3.25% over five years,
+Sharpe 0.08). Net of the pre-registered costs it earned +$715 (+0.72%,
+Sharpe 0.02). Costs of $2,538 took 78% of the gross P&L. The mechanism is
+that each round trip turns over about $202,000 of notional (entry and
+exit, both legs). At 5 bps per side for half-spread plus slippage, that
+alone costs about $101 per trade; with commissions ($9) and short borrow
+($17), the total is $127 per trade, against an average gross gain of
+only $163 per trade (8.1 bps of the notional traded). Net P&L reaches
+zero at 1.28× the base-case costs, and is negative at 2×. Neither the
+gross nor the net return is statistically distinguishable from zero
+(approximate t-statistics 0.18 and 0.04), and the pair itself was not
+statistically validated (ADR-008).
 
 > **Multiple-testing disclosure: no pair survives correction.** All 28
 > pairs in the candidate universe were tested for cointegration over the
@@ -45,9 +54,6 @@ formation-period Engle-Granger p-value). See [`DECISIONS.md`](DECISIONS.md)
 ADR-001, ADR-002, and ADR-008.
 
 ## Methodology
-
-<!-- TODO: fill in once the pipeline is built. This section must
-     explicitly name and address each bias below — do not just list them. -->
 
 **Cointegration testing.** Engle-Granger two-step test on log adjusted
 closes, 2016–2020 formation period, for all 28 pairs of
@@ -87,37 +93,66 @@ and held fixed for trading. Full table:
 
 ## Results
 
-Trading period 2021–2025, EOG/FANG, $100,000 gross notional per trade.
-The gross column was recorded and frozen before any cost model was
-written ([`DECISIONS.md`](DECISIONS.md) ADR-010). Every trade is listed in
-[`docs/results_gross.md`](docs/results_gross.md).
+Trading period 2021–2025, EOG/FANG, $100,000 gross notional per trade,
+executed at the next day's close. The gross column was recorded and
+frozen before any cost model code existed
+([`DECISIONS.md`](DECISIONS.md) ADR-010). The net column applies the
+pre-registered cost model to the **same 20 trades**, which were not
+regenerated (ADR-011).
 
 | Metric | Gross of costs | Net of costs |
-|---|---|---|
-| Total return | +3.25% | not yet computed |
-| Sharpe ratio | 0.08 | not yet computed |
-| Max drawdown | −11.35% | not yet computed |
-| Win rate | 60.0% | not yet computed |
-| Number of trades | 20 | 20 (same trades) |
+|---|---:|---:|
+| Total return | +3.25% (+$3,253) | +0.72% (+$715) |
+| Sharpe ratio | 0.08 | 0.02 |
+| Max drawdown | −11.35% | −12.28% |
+| Win rate | 60.0% | 60.0% |
+| Number of trades | 20 | 20 |
 
-**Why the numbers differ:** _TBD — a specific, mechanistic explanation
-(e.g. trade frequency at the chosen threshold multiplied by per-trade
-cost), not a vague statement that "costs matter."_
+**Why the numbers differ:** each round trip turns over about $202,000 of
+notional (entry and exit on both legs). The strategy's average gross gain
+is $163 per trade, only 8.1 bps of that notional. The pre-registered
+costs take $127 of it: $101 from half-spread and slippage (5 bps per
+side), $9 from commissions, and $17 from short borrow over an average
+28-day hold. Across 20 trades, costs total $2,538, which is 78% of the
+gross P&L. Win rate is unchanged because no winning trade was small
+enough to be flipped by its ~$127 cost.
 
-Full cost model assumptions: [`DECISIONS.md`](DECISIONS.md) ADR-004.
+| Cost multiplier | 0× (gross) | 0.5× | **1× (base)** | 2× | 3× |
+|---|---:|---:|---:|---:|---:|
+| Net P&L | +$3,253 | +$1,984 | **+$715** | −$1,823 | −$4,362 |
+
+Break-even is at 1.28× the base-case costs. Cost model:
+[`DECISIONS.md`](DECISIONS.md) ADR-004 and ADR-011. Full tables, cost
+breakdown, and every trade: [`docs/results.md`](docs/results.md),
+[`docs/results_net.md`](docs/results_net.md),
+[`docs/results_gross.md`](docs/results_gross.md).
 
 ## What Didn't Work / Limitations
 
 <!-- TODO: fill in honestly once the project is complete. -->
 
-- _TBD — the net-of-costs finding, stated directly as the actual result
-  of this project, whatever it turns out to be._
+- **The net result is a marginal profit that is not distinguishable from
+  zero.** +0.72% over five years (Sharpe 0.02) with a −12.28% maximum
+  drawdown is not a usable strategy. It disappears if real costs are 28%
+  higher than assumed. The gross result (Sharpe 0.08, t ≈ 0.18) was not
+  statistically meaningful either.
 - The cointegration relationship is not stable across periods: EOG/FANG
   had p = 0.0051 in 2016–2020 but p = 0.223 in 2021–2025, although the
   hedge ratio itself barely moved (0.742 vs. 0.754). The 2016–2020
   formation period is dominated by the March 2020 crash.
-- _TBD — the multiple-testing caveat from Methodology, restated here in
-  terms of what it means for confidence in the result._
+- **The pair was never statistically validated.** It was the best of 28
+  searched pairs, failed Holm correction (p = 0.142), and showed no
+  cointegration out of sample (p = 0.223). The backtest therefore tests a
+  pair found by searching, and its small gross profit may be luck rather
+  than mean reversion.
+- **No stop-loss.** The two largest losses (−$5,674 and −$6,014 gross)
+  came from long-spread trades held 57 and 65 days while the spread kept
+  diverging. A stop-loss was not pre-registered, and adding one after
+  seeing these trades would be tuning to the result.
+- **Cost assumptions are assumptions.** Spread, slippage, and borrow
+  rates are not measured: yfinance has no quote data. Market impact,
+  regulatory fees, borrow recalls, and margin interest are not modeled,
+  and idle cash earns nothing.
 - Daily-frequency, free public data only (yfinance) — no intraday
   signal, no paid data feeds.
 - Single pair, single time period — no claim of generalization to other
@@ -141,7 +176,7 @@ cd pairs-trading-honest-costs
 python -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
-bash scripts/run_pipeline.sh   # runs through the gross backtest; costs not implemented yet
+bash scripts/run_pipeline.sh   # data -> pair selection -> stability check -> gross -> net
 ```
 
 ## Testing

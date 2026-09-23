@@ -200,3 +200,69 @@ def compute_metrics(
         "turnover_per_year": float(executions["notional"].sum() / capital / years),
         "n_days": n_days,
     }
+
+
+@dataclass(frozen=True)
+class RebuiltAccounts:
+    daily_pnl: pd.Series  # gross P&L per day, same formula as run_backtest
+    trade_pnl: pd.Series  # gross P&L per trade_id
+    executions: pd.DataFrame  # same columns as BacktestResult.executions
+    short_value: pd.Series  # unadjusted market value of short legs held overnight after each close
+    dividends: dict[str, float]  # dividend component of gross P&L: {"long_leg": +, "short_leg": -}
+
+
+def rebuild_from_trades(
+    trades: pd.DataFrame, adj_close: pd.DataFrame, close: pd.DataFrame, y: str, x: str
+) -> RebuiltAccounts:
+    """Recompute accounts from a recorded trade list, without any trading logic.
+
+    Used by the net-of-costs run so that costs are charged on exactly the trades
+    that were frozen in the gross run (ADR-010, ADR-011). Uses the same leg-value
+    formula as ``run_backtest``: ``shares * Close_entry * AdjClose_t / AdjClose_entry``.
+    """
+    dates = adj_close.index
+    daily = np.zeros(len(dates))
+    short_value = np.zeros(len(dates))
+    trade_pnl, executions = {}, []
+    dividends = {"long_leg": 0.0, "short_leg": 0.0}
+
+    for tr in trades.itertuples(index=False):
+        i0, i1 = dates.get_loc(tr.entry_date), dates.get_loc(tr.exit_date)
+        if i1 <= i0:
+            raise ValueError(f"trade {tr.trade_id} exits before it enters")
+        pnl = 0.0
+        for ticker in (y, x):
+            shares = int(getattr(tr, f"shares_{ticker}"))
+            entry_close = float(close.at[tr.entry_date, ticker])
+            invested = shares * entry_close
+            adj = adj_close[ticker].to_numpy()[i0 : i1 + 1]
+            value = invested * adj / adj[0]
+            leg_daily = np.diff(value)
+            daily[i0 + 1 : i1 + 1] += leg_daily
+            pnl += leg_daily.sum()
+
+            price_only = shares * (float(close.at[tr.exit_date, ticker]) - entry_close)
+            leg = "long_leg" if shares > 0 else "short_leg"
+            dividends[leg] += leg_daily.sum() - price_only
+            if shares < 0:
+                short_value[i0:i1] += -shares * close[ticker].to_numpy()[i0:i1]
+
+            for date, kind, qty in ((tr.entry_date, "entry", shares), (tr.exit_date, "exit", -shares)):
+                price = float(close.at[date, ticker])
+                executions.append({
+                    "date": date, "trade_id": tr.trade_id, "kind": kind, "ticker": ticker,
+                    "shares": qty, "price": price, "notional": abs(qty) * price,
+                })
+        trade_pnl[tr.trade_id] = pnl
+
+    exec_cols = ["date", "trade_id", "kind", "ticker", "shares", "price", "notional"]
+    execs = pd.DataFrame(executions, columns=exec_cols).sort_values(
+        ["date", "trade_id", "kind"], kind="mergesort", ignore_index=True
+    )
+    return RebuiltAccounts(
+        daily_pnl=pd.Series(daily, index=dates, name="pnl"),
+        trade_pnl=pd.Series(trade_pnl, name="pnl"),
+        executions=execs,
+        short_value=pd.Series(short_value, index=dates, name="short_value"),
+        dividends=dividends,
+    )
