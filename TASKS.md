@@ -6,16 +6,16 @@ this project's central discipline lives.
 
 ## Phase 0 — Setup
 
-- [ ] Init git repo, `.gitignore` (Python, data/raw, data/processed,
+- [x] Init git repo, `.gitignore` (Python, data/raw, data/processed,
       .env, __pycache__, local assistant/editor files)
 - [x] `pyproject.toml`, `requirements.txt`
 - [x] `LICENSE` (MIT, mateeniqbal3, current year)
 - [x] Folder structure per `PROJECT.md` §10
-- [ ] Commit: "chore: initial project scaffold"
+- [x] Commit: "chore: initial project scaffold"
 
 ## Phase 0.5 — Research Design (recorded before any data is downloaded)
 
-- [ ] Record in `DECISIONS.md`, with status `Accepted`, before Phase 1:
+- [x] Record in `DECISIONS.md`, with status `Accepted`, before Phase 1:
       candidate universe, sample and formation/trading periods,
       cointegration test and selection rule, hedge-ratio and spread
       construction, z-score window and entry/exit thresholds, execution
@@ -25,25 +25,25 @@ this project's central discipline lives.
 
 ## Phase 1 — Data + Candidate Universe
 
-- [ ] Pull historical daily price data via `yfinance` for the
+- [x] Pull historical daily price data via `yfinance` for the
       pre-registered candidate universe
-- [ ] Write `data/dataset_manifest.json`: tickers, date range, source
-- [ ] Write `src/data.py`: load, clean, align
-- [ ] `tests/test_data.py`
+- [x] Write `data/dataset_manifest.json`: tickers, date range, source
+- [x] Write `src/data.py`: load, clean, align
+- [x] `tests/test_data.py`
 - [ ] Commit: "feat: price data pipeline"
 
 ## Phase 2 — Cointegration Testing
 
-- [ ] Write `src/cointegration.py`: Engle-Granger (or Johansen) test
+- [x] Write `src/cointegration.py`: Engle-Granger (or Johansen) test
       across all candidate pairs in the universe
-- [ ] Record the actual test statistic and p-value for EVERY pair tested,
+- [x] Record the actual test statistic and p-value for EVERY pair tested,
       not just the one ultimately selected — this full record is required
       for the multiple-testing disclosure in `PROJECT.md` §7
-- [ ] Select the pair using the pre-registered selection rule; document
+- [x] Select the pair using the pre-registered selection rule; document
       the selection and the full list of pairs tested in `DECISIONS.md`
 - [ ] `notebooks/01_pair_selection.ipynb`: visualize the candidate pairs'
-      price series and spreads
-- [ ] `tests/test_cointegration.py`
+      price series and spreads (written, formation period only; not yet executed)
+- [x] `tests/test_cointegration.py`
 - [ ] Commit: "feat: cointegration testing across candidate pairs — see DECISIONS.md for full results"
 
 ## Phase 3 — Signal Construction
