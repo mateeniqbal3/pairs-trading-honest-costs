@@ -1,0 +1,11 @@
+{
+  "_comment": "Populated by the data pipeline once the research design (DECISIONS.md ADR-001) is accepted. Must record EVERY candidate pair tested, not only the one selected (PROJECT.md sections 5 and 7).",
+  "source": "yfinance",
+  "candidate_universe": [],
+  "sample_period": null,
+  "formation_period": null,
+  "trading_period": null,
+  "pairs_tested": [],
+  "selected_pair": null,
+  "selection_rationale": null
+}
