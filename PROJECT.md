@@ -39,7 +39,7 @@ The research question, stated neutrally (quote this in the README):
 
 > "How does incorporating realistic transaction costs affect the observed
 > performance of a pairs-trading strategy? This project backtests a
-> single cointegrated pair, reports gross and net-of-cost performance side
+> single pair selected by a cointegration test, reports gross and net-of-cost performance side
 > by side from the same trades, and explains the mechanism behind any
 > difference."
 

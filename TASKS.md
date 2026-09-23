@@ -48,10 +48,10 @@ this project's central discipline lives.
 
 ## Phase 3 — Signal Construction
 
-- [ ] Write `src/signal.py`: z-score of the spread, computed using ONLY a
+- [x] Write `src/signal.py`: z-score of the spread, computed using ONLY a
       trailing rolling window (never a window that includes future data)
-- [ ] Implement the pre-registered entry/exit z-score thresholds
-- [ ] `tests/test_signal.py`: MUST include an explicit test verifying no
+- [x] Implement the pre-registered entry/exit z-score thresholds
+- [x] `tests/test_signal.py`: MUST include an explicit test verifying no
       look-ahead — e.g. confirm that changing a future price value does
       not change the z-score computed at an earlier timestamp
 - [ ] Commit: "feat: z-score mean-reversion signal (look-ahead verified by test)"

@@ -159,7 +159,7 @@ reported as a finding and raised with the project owner before any
 backtest. The pair has not been replaced, and no signal or backtest has
 been run.
 
-**Consequences:** _Pending the owner's decision on how to proceed._
+**Consequences:** The owner chose to continue with EOG/FANG — see ADR-008.
 
 ---
 
@@ -351,7 +351,87 @@ revised prices, and can detect this by comparing the file hash.
 
 ---
 
-## ADR-008: [Template for future ADRs]
+## ADR-008: Continue with EOG/FANG although no pair survives multiple-testing correction
+
+**Status:** Accepted — 2026-09-23 (owner decision, after reviewing the formation results)
+
+**Context:** The ADR-002 weak-relationship rule triggered. EOG/FANG, the
+pair with the lowest raw p-value, has raw p = 0.0051 but Holm-adjusted
+p = 0.142, and no other pair does better after correction. The rule
+required raising this with the owner before any backtest. It did not
+allow the pair to be replaced.
+
+**Decision:** **No pair survives multiple-testing correction. The project
+continues with the best raw p-value pair, EOG/FANG (beta = 0.742), for
+the out-of-sample test.** The pair, hedge ratio, and all other
+pre-registered choices stay as they are. This failure is disclosed
+prominently in the README and in every results document.
+
+**Consequences:**
+
+- The out-of-sample backtest tests a pair that was *found by searching*
+  28 candidates. It does not test a relationship already shown to be
+  statistically significant. Whatever the backtest shows, gross or net,
+  cannot be credited to a cointegration relationship that the formation
+  data established at the 5% level after correction.
+- The out-of-sample stability check (ADR-002) is run next and reported
+  whatever it shows. It is a diagnostic only and does not change the pair.
+- A weak or unstable relationship is an acceptable finding. The pair will
+  not be swapped for one that looks better in hindsight.
+
+**Out-of-sample stability result (recorded 2026-09-23, from
+[`docs/stability_check.md`](docs/stability_check.md)):** the same
+Engle-Granger test on 2021-01-04 to 2025-12-31 (1,255 days) gives a
+statistic of −2.638 against a 5% critical value of −3.341, **p = 0.223;
+cointegration is not detected in the trading period.** The reverse
+ordering gives p = 0.308. The OLS hedge ratio is stable (0.742 in the
+formation period, 0.754 in the trading period). A supplementary check,
+which was not pre-registered, runs an ADF test on the spread actually
+traded (fixed formation alpha and beta) over the trading period: p =
+0.080, mean 0.018, standard deviation 0.085. That is weak evidence of
+mean reversion, not significant at 5%. As pre-registered, none of this
+changes the pair or any parameter. It means the out-of-sample backtest
+trades a relationship that could not be confirmed statistically in
+either period after correcting for the search.
+
+---
+
+## ADR-009: Clarifying the z-score exit rule and signal mechanics
+
+**Status:** Accepted — 2026-09-23 (recorded before the signal was run on any real data)
+
+**Context:** ADR-003 says "close when `|z_t| <= 0.5`". Read literally, a
+position stays open if z jumps across the exit band in one day, for
+example from +2.3 to −0.9. The short-spread trade has then fully mean
+reverted, but the literal rule keeps it open, and it would stay open
+until z happened to land inside ±0.5. ADR-003 also leaves a few
+mechanical details unstated. All of them are fixed here, before any
+signal is computed on real data.
+
+**Decision:**
+
+| Item | ADR-003 wording | Implemented rule | Reason |
+|---|---|---|---|
+| Exit from short-spread | `\|z\| <= 0.5` | exit when `z <= +0.5` | Same as ADR-003 whenever z moves into the band; also exits when z overshoots past the band, which is the evident intent (the reversion is complete) |
+| Exit from long-spread | `\|z\| <= 0.5` | exit when `z >= -0.5` | Same, mirrored |
+| Exit and entry on the same day | not stated | exits are checked first; if z is then beyond the opposite entry threshold, the opposite position is entered the same day | Otherwise a valid entry signal would be ignored for one day with no reason |
+| Rolling mean and standard deviation | not stated | computed directly from each window's 60 values; sample standard deviation (ddof = 1); no value until 60 observations are available; a window with standard deviation ≤ 1e-12 counts as zero variance | pandas' online rolling algorithm accumulates rounding error across the whole series (about 3e-8 on a constant window in testing), so z would depend slightly on data outside the window |
+| Missing z (warm-up, or zero variance) | not stated | no new entry; an open position is held | A missing signal carries no information |
+| Start of the trading period | not stated | flat on 2021-01-04, with no position carried in from the formation period; z at that date uses the previous 59 formation-period spread values, which is legitimately past data | The formation period is not traded |
+| Output | not stated | target position decided at the close of day t: +1 long spread (long EOG, short FANG), −1 short spread, 0 flat. Execution at the close of t+1 and the forced final close are handled by the backtest (ADR-006) | Keeps signal timing separate from execution timing |
+
+- **Original vs. new:** entry thresholds (±2.0), exit band (0.5), window
+  (60), and the fixed formation hedge ratio are unchanged. Only the two
+  cases ADR-003 did not cover are defined.
+- **Results invalidated:** none. No signal had been computed on real data
+  when this was recorded.
+
+**Consequences:** In the overshoot case this rule closes positions no
+later than the literal wording would, and usually sooner.
+
+---
+
+## ADR-010: [Template for future ADRs]
 
 **Status:** Proposed / Accepted / Superseded / Rejected
 

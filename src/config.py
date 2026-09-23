@@ -26,3 +26,8 @@ EG_TREND = "c"
 EG_AUTOLAG = "aic"
 SIGNIFICANCE_LEVEL = 0.05
 MIN_OBSERVATIONS = 250  # sanity guard against broken data, not a research parameter
+
+# ADR-003 / ADR-009: spread z-score signal.
+ZSCORE_WINDOW = 60
+ENTRY_Z = 2.0
+EXIT_Z = 0.5

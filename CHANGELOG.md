@@ -6,14 +6,32 @@ All notable changes to this project are documented here. Loosely follows
 ## [Unreleased]
 
 ### Planned
-- Pre-registered research design (universe, periods, thresholds, costs)
-- Candidate universe + cointegration testing across all pairs
-- Z-score mean-reversion signal (look-ahead verified)
 - Gross-of-costs backtest
 - Realistic transaction cost model applied to the same trades
 - Side-by-side gross vs. net results
 - README structured per the required format (problem, methodology with
   bias controls, results, limitations)
+
+### Added
+- Out-of-sample stability check for EOG/FANG (`scripts/stability_check.py`,
+  `docs/stability_check.md`): cointegration not detected in 2021–2025
+  (p = 0.223)
+- Z-score signal (`src/signal.py`) with a look-ahead test; exit-rule
+  clarification recorded as ADR-009
+- ADR-008: continue with EOG/FANG although no pair survives Holm correction
+
+### Fixed
+- Rolling z-score computed directly from each window, avoiding the
+  rounding drift of pandas' online rolling algorithm
+
+---
+
+## [0.2.0] — 2026-09-23 — Data pipeline and cointegration testing
+
+### Added
+- yfinance download with timeouts, retries, and a per-ticker fallback
+- Engle-Granger tests on all 28 candidate pairs (formation 2016–2020);
+  selected EOG/FANG (raw p = 0.0051, Holm p = 0.142)
 
 ---
 
