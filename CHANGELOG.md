@@ -26,6 +26,8 @@ All notable changes to this project are documented here. Loosely follows
 - Rolling z-score computed directly from each window, avoiding the
   rounding drift of pandas' online rolling algorithm
 - Forced-close flag set only when the end of the period overrides the signal
+- CI and `requires-python` moved from Python 3.11 to 3.13 / >=3.12: the pinned
+  numpy 2.5.3 has no Python 3.11 build, so CI could not install dependencies
 
 ---
 

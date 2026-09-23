@@ -193,7 +193,8 @@ breakdown, and every trade: [`docs/results.md`](docs/results.md),
 
 ## Running Locally
 
-Requires Python 3.11 or later (developed on 3.13.7; CI runs 3.11).
+Requires Python 3.12 or later (the pinned numpy 2.5.3 needs 3.12+). Results were
+produced on Python 3.13.7, and CI runs 3.13.
 Dependency versions are pinned in `requirements.txt`.
 
 ```bash

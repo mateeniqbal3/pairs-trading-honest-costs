@@ -4,12 +4,12 @@ version = "0.1.0"
 description = "Pairs trading with honest, side-by-side gross-vs-net-of-costs backtest reporting and explicit bias-control discipline."
 authors = [{ name = "Mateen Iqbal" }]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = { text = "MIT" }
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
