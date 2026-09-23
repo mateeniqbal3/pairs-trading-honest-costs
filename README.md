@@ -42,8 +42,9 @@ statistically validated (ADR-008).
 **Hypothesis:** Two assets with a plausible economic link — here, two
 US shale oil producers with large Permian Basin operations and exposure
 to the same crude price, basin differentials, and service-cost cycle —
-should have prices that drift apart in the short term but revert toward a stable long-run relationship.
-If that relationship is real, a spread between them that moves too far
+should have prices that drift apart in the short term but revert toward a
+stable long-run relationship. If that relationship is real, a spread
+between them that moves too far
 from its historical mean should tend to move back, and a signal that buys
 the relatively cheap asset and sells the relatively expensive one should
 have some predictive value.
@@ -62,6 +63,30 @@ closes, 2016–2020 formation period, for all 28 pairs of
 beta = 0.742. The hedge ratio is estimated on the formation period only
 and held fixed for trading. Full table:
 [`docs/pair_selection.md`](docs/pair_selection.md).
+
+**Data.** Daily adjusted and unadjusted closes from yfinance,
+2016-01-04 to 2025-12-31, for the 8 tickers above. Only dates on which
+all 8 trade are kept (none were dropped), with no filling or repair. The
+SHA-256 of the raw snapshot is recorded in
+[`data/dataset_manifest.json`](data/dataset_manifest.json)
+([`DECISIONS.md`](DECISIONS.md) ADR-007).
+
+**Strategy and backtest.** The spread is
+`log(EOG) − 0.742 × log(FANG) − 1.006`, with coefficients from the formation
+period. Its z-score uses a trailing 60-day window. The strategy enters
+short-spread at z ≥ +2 and long-spread at z ≤ −2, and exits when z comes
+back inside ±0.5 (or overshoots through it). There is no stop-loss. Each
+trade uses $100,000 of gross notional, split between the legs by the
+hedge ratio, in whole shares, and is not compounded. Orders are executed
+at the close of the day after the signal. P&L uses dividend-adjusted
+closes, so the short leg pays dividends. Sharpe is annualized over every
+trading day with a 0% risk-free rate (ADR-003, ADR-006, ADR-009, ADR-010).
+
+**Transaction-cost model** (fixed before any backtest was run; ADR-004,
+ADR-011). Per leg per order: 2 bps half-spread, 3 bps slippage, and
+commission of $0.005/share with a $1 minimum. Short positions also pay
+0.30%/year borrow. All of these are assumptions, not measurements.
+Results are also reported at 0.5×, 2×, and 3× these costs.
 
 **Bias controls — addressed explicitly, not just listed:**
 
@@ -129,8 +154,6 @@ breakdown, and every trade: [`docs/results.md`](docs/results.md),
 
 ## What Didn't Work / Limitations
 
-<!-- TODO: fill in honestly once the project is complete. -->
-
 - **The net result is a marginal profit that is not distinguishable from
   zero.** +0.72% over five years (Sharpe 0.02) with a −12.28% maximum
   drawdown is not a usable strategy. It disappears if real costs are 28%
@@ -170,6 +193,9 @@ breakdown, and every trade: [`docs/results.md`](docs/results.md),
 
 ## Running Locally
 
+Requires Python 3.11 or later (developed on 3.13.7; CI runs 3.11).
+Dependency versions are pinned in `requirements.txt`.
+
 ```bash
 git clone https://github.com/mateeniqbal3/pairs-trading-honest-costs.git
 cd pairs-trading-honest-costs
@@ -178,6 +204,15 @@ pip install -r requirements.txt
 
 bash scripts/run_pipeline.sh   # data -> pair selection -> stability check -> gross -> net
 ```
+
+**Reproducibility note.** Raw prices are not committed, so a fresh run
+downloads them again. Yahoo revises adjusted history over time, so a new
+download can differ from the snapshot used here, which is identified by
+its SHA-256 in `data/dataset_manifest.json`. The published numbers
+reproduce exactly only from that snapshot. If the data differ, the gross
+result changes, and `scripts/run_backtest_net.py` deliberately stops,
+because it only applies costs to the frozen gross trade log
+(ADR-010).
 
 ## Testing
 

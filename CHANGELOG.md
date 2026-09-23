@@ -3,16 +3,12 @@
 All notable changes to this project are documented here. Loosely follows
 [Keep a Changelog](https://keepachangelog.com/).
 
-## [Unreleased]
-
-### Planned
-- Gross-of-costs backtest
-- Realistic transaction cost model applied to the same trades
-- Side-by-side gross vs. net results
-- README structured per the required format (problem, methodology with
-  bias controls, results, limitations)
+## [1.0.0] — 2026-09-23 — Complete
 
 ### Added
+- README with the finding, methodology (data, strategy, cost model, bias
+  controls), gross vs. net results, and limitations
+- Executed `notebooks/01_pair_selection.ipynb` (formation period only)
 - Out-of-sample stability check for EOG/FANG (`scripts/stability_check.py`,
   `docs/stability_check.md`): cointegration not detected in 2021–2025
   (p = 0.223)
@@ -22,7 +18,6 @@ All notable changes to this project are documented here. Loosely follows
 - Gross-of-costs backtest (`src/backtest.py`, `scripts/run_backtest_gross.py`):
   EOG/FANG 2021–2025, +3.25% total, Sharpe 0.08, max drawdown −11.35%,
   20 trades; frozen before any cost code (ADR-010)
-
 - Net-of-costs result (`src/costs.py`, `scripts/run_backtest_net.py`) on the
   frozen gross trades: +0.72% net vs +3.25% gross, Sharpe 0.02 vs 0.08;
   costs $2,538 (78% of gross P&L); break-even at 1.28× costs (ADR-011, ADR-005)
@@ -30,6 +25,7 @@ All notable changes to this project are documented here. Loosely follows
 ### Fixed
 - Rolling z-score computed directly from each window, avoiding the
   rounding drift of pandas' online rolling algorithm
+- Forced-close flag set only when the end of the period overrides the signal
 
 ---
 

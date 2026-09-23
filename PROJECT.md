@@ -1,6 +1,6 @@
 # PROJECT.md — Pairs Trading with Honest Cost Modeling
 
-> **Status:** Not started
+> **Status:** Complete (v1.0.0) — the finding is in `README.md` and `DECISIONS.md` ADR-005
 > **Owner:** mateeniqbal3
 > **Track:** Quant Finance (standalone — not tied to any academic
 > semester/summer phase, not part of the RTP/Fulbright thesis narrative,
@@ -67,32 +67,32 @@ report the strategy's Sharpe ratio, drawdown, and other standard metrics
 
 ## 4. Success Criteria (Definition of Done)
 
-- [ ] Research design (universe, periods, test, thresholds, execution and
+- [x] Research design (universe, periods, test, thresholds, execution and
       cost assumptions) recorded in `DECISIONS.md` before any price data
       is downloaded or any backtest is run
-- [ ] Historical price data acquired for a candidate universe (free
+- [x] Historical price data acquired for a candidate universe (free
       sources — see §5)
-- [ ] Cointegration testing performed across candidate pairs (e.g.
+- [x] Cointegration testing performed across candidate pairs (e.g.
       Engle-Granger or Johansen test), with the actual test statistics
       and p-values reported — not just an assertion that a pair is
       cointegrated
-- [ ] Z-score mean-reversion signal constructed on the selected pair's
+- [x] Z-score mean-reversion signal constructed on the selected pair's
       spread, with entry/exit thresholds documented and justified
-- [ ] Backtesting loop implemented (pandas/numpy — no need for a
+- [x] Backtesting loop implemented (pandas/numpy — no need for a
       full event-driven engine at this project's scope)
-- [ ] Realistic transaction cost model applied: at minimum, bid-ask
+- [x] Realistic transaction cost model applied: at minimum, bid-ask
       spread cost and a slippage assumption; commission/fees if
       applicable to the chosen instruments
-- [ ] **Results reported side by side: gross-of-costs vs. net-of-costs**
+- [x] **Results reported side by side: gross-of-costs vs. net-of-costs**
       — same metrics (Sharpe, total return, max drawdown, win rate),
       same table or chart, directly comparable
-- [ ] Explicit bias-control section: look-ahead bias, survivorship bias,
+- [x] Explicit bias-control section: look-ahead bias, survivorship bias,
       and multiple-testing bias (from pair selection) each named and
       addressed concretely, not just listed
-- [ ] Honest "what didn't work / limitations" section in the README —
+- [x] Honest "what didn't work / limitations" section in the README —
       framed as a positive signal of rigor, not hedging
-- [ ] CI pipeline (lint + test)
-- [ ] README structured per §9 exactly
+- [ ] CI pipeline (lint + test) — workflow in place; green run pending the first push
+- [x] README structured per §9 exactly
 
 ## 5. Dataset — Free/Public Sources Only
 
