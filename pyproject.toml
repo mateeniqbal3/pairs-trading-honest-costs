@@ -1,6 +1,6 @@
 [project]
 name = "pairs-trading-honest-costs"
-version = "0.1.0"
+version = "1.0.0"
 description = "Pairs trading with honest, side-by-side gross-vs-net-of-costs backtest reporting and explicit bias-control discipline."
 authors = [{ name = "Mateen Iqbal" }]
 readme = "README.md"
