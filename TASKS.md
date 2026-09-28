@@ -91,12 +91,12 @@ this project's central discipline lives.
 
 ## Phase 7 — Optional Writeup
 
-- [ ] (Not pursued — the README covers the full story) Write `paper/writeup.md`: a short writeup (this project doesn't
+- [x] Write `paper/writeup.md` (working paper, 2026-09-28; PDF in `paper/writeup.pdf`): a short writeup (this project doesn't
       need a full academic paper — a clear few-page writeup covering
       hypothesis, methodology, bias controls, and the gross-vs-net
       finding is sufficient) — optional but recommended given this
       project's interview-narrative purpose
-- [ ] Commit: "docs: writeup complete" (if pursued)
+- [x] Commit: "docs: writeup complete"
 
 ## Phase 8 — README (this is the actual deliverable — see PROJECT.md section 9)
 

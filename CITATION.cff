@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this code or its results, please cite it as below."
+type: software
+title: "Pairs Trading with Honest Cost Modeling"
+abstract: >-
+  A pre-registered, fully reproducible backtest of a cointegration-based
+  pairs-trading strategy (EOG/FANG, 2021-2025) that reports gross and
+  net-of-cost performance from the same frozen trades. Costs consume 78% of
+  the gross P&L, the net result breaks even at 1.28x the assumed costs, and
+  no candidate pair survives Holm correction for the 28 pairs searched.
+authors:
+  - family-names: "Iqbal"
+    given-names: "Mateen"
+    email: "muhammadmateen1024@gmail.com"
+version: "1.0.0"
+date-released: "2026-09-28"
+license: MIT
+repository-code: "https://github.com/mateeniqbal3/pairs-trading-honest-costs"
+keywords:
+  - pairs trading
+  - statistical arbitrage
+  - cointegration
+  - transaction costs
+  - backtesting
+  - multiple testing
+  - pre-registration
+  - reproducibility
+# After Zenodo mints a DOI, add it here (uncomment and replace):
+# doi: "10.5281/zenodo.XXXXXXX"

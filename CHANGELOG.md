@@ -6,6 +6,10 @@ All notable changes to this project are documented here. Loosely follows
 ## [1.0.0] — 2026-09-23 — Complete
 
 ### Added
+- Working paper `paper/writeup.md` / `paper/writeup.pdf`, figure script
+  `paper/make_figures.py` (reads only the committed result files), PDF build
+  script `paper/build_pdf.py`, README results chart, and `CITATION.cff`
+  (2026-09-28)
 - README with the finding, methodology (data, strategy, cost model, bias
   controls), gross vs. net results, and limitations
 - Executed `notebooks/01_pair_selection.ipynb` (formation period only)

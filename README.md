@@ -3,6 +3,10 @@
 [![CI](https://github.com/mateeniqbal3/pairs-trading-honest-costs/actions/workflows/ci.yml/badge.svg)](https://github.com/mateeniqbal3/pairs-trading-honest-costs/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+![Pairs trading EOG/FANG, 2021–2025: costs take 78% of the gross P&L; net P&L breaks even at 1.28× the assumed costs](paper/figures/readme_hero.png)
+
+📄 **Working paper:** [`paper/writeup.pdf`](paper/writeup.pdf) (source: [`paper/writeup.md`](paper/writeup.md))
+
 > **Research question:** How does incorporating realistic transaction
 > costs affect the observed performance of a pairs-trading strategy? This
 > project backtests a single pair selected by a cointegration test, reports gross and
@@ -190,6 +194,8 @@ breakdown, and every trade: [`docs/results.md`](docs/results.md),
 - [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) — build plan
 - [`TASKS.md`](TASKS.md) — granular task checklist
 - [`CHANGELOG.md`](CHANGELOG.md) — version history
+- [`paper/writeup.md`](paper/writeup.md) — working paper (PDF: [`paper/writeup.pdf`](paper/writeup.pdf)); figures from `python paper/make_figures.py`, PDF from `python paper/build_pdf.py`
+- [`CITATION.cff`](CITATION.cff) — how to cite this project
 
 ## Running Locally
 
