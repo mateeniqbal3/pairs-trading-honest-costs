@@ -10,7 +10,7 @@ abstract: >-
   no candidate pair survives Holm correction for the 28 pairs searched.
 authors:
   - family-names: "Iqbal"
-    given-names: "Mateen"
+    given-names: "Muhammad Mateen"
     email: "muhammadmateen1024@gmail.com"
 version: "1.0.0"
 date-released: "2026-09-28"
@@ -25,7 +25,6 @@ keywords:
   - multiple testing
   - pre-registration
   - reproducibility
-# doi: "10.5281/zenodo.XXXXXXX"
 doi: 10.5281/zenodo.23024360
 identifiers:
   - type: doi

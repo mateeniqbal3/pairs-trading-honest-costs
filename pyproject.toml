@@ -2,7 +2,7 @@
 name = "pairs-trading-honest-costs"
 version = "1.0.0"
 description = "Pairs trading with honest, side-by-side gross-vs-net-of-costs backtest reporting and explicit bias-control discipline."
-authors = [{ name = "Mateen Iqbal" }]
+authors = [{ name = "Muhammad Mateen Iqbal" }]
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }

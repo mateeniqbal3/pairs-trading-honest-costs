@@ -1,6 +1,6 @@
 # Pairs Trading with Honest Cost Modeling: A Pre-Registered Case Study of How Transaction Costs Erode a Small Statistical-Arbitrage Edge
 
-**Mateen Iqbal**
+**Muhammad Mateen Iqbal**
 BS Data Science, Institute of Computing & IT, University of Lakki Marwat, Pakistan
 muhammadmateen1024@gmail.com
 
