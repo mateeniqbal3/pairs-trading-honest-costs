@@ -25,5 +25,8 @@ keywords:
   - multiple testing
   - pre-registration
   - reproducibility
-# After Zenodo mints a DOI, add it here (uncomment and replace):
 # doi: "10.5281/zenodo.XXXXXXX"
+doi: 10.5281/zenodo.23024360
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23024360
