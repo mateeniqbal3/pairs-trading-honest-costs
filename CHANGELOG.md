@@ -3,6 +3,19 @@
 All notable changes to this project are documented here. Loosely follows
 [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Added
+- `paper/build_arxiv.py` and `paper/arxiv/main.tex`: arXiv-ready LaTeX
+  source (pdfLaTeX, standard packages, references inline); the script also
+  writes the upload zip and can compile it as a check
+
+### Changed
+- Author name set to Muhammad Mateen Iqbal in the paper, `CITATION.cff`,
+  `pyproject.toml` and `LICENSE`
+
+---
+
 ## [1.0.0] — 2026-09-23 — Complete
 
 ### Added

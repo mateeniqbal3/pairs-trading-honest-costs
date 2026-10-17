@@ -482,7 +482,7 @@ critical value −3.341. Holm and Bonferroni adjustments are over all 28
 tests. "Reverse p" swaps Y and X and was not used for selection.
 
 | Rank | Pair (Y/X) | EG stat | Raw p | Holm p | Bonferroni p | $\beta$ | Reverse p |
-|--:|----|---:|---:|---:|----:|---:|---:|
+|--:|------|---:|---:|---:|----:|---:|---:|
 | 1 | EOG/FANG | −4.105 | 0.0051 | 0.1418 | 0.1418 | 0.7423 | 0.0036 |
 | 2 | FANG/OXY | −3.950 | 0.0085 | 0.2283 | 0.2367 | 0.7012 | 0.0491 |
 | 3 | APA/DVN | −3.484 | 0.0338 | 0.8795 | 0.9472 | 1.0970 | 0.0468 |

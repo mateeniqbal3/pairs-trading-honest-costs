@@ -198,7 +198,8 @@ breakdown, and every trade: [`docs/results.md`](docs/results.md),
 - [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) — build plan
 - [`TASKS.md`](TASKS.md) — granular task checklist
 - [`CHANGELOG.md`](CHANGELOG.md) — version history
-- [`paper/writeup.md`](paper/writeup.md) — working paper (PDF: [`paper/writeup.pdf`](paper/writeup.pdf)); figures from `python paper/make_figures.py`, PDF from `python paper/build_pdf.py`
+- [`paper/writeup.md`](paper/writeup.md) — working paper (PDF: [`paper/writeup.pdf`](paper/writeup.pdf))
+- [`paper/arxiv/main.tex`](paper/arxiv/main.tex) — arXiv LaTeX source; `python paper/build_arxiv.py` rebuilds it and the upload zip; figures from `python paper/make_figures.py`, PDF from `python paper/build_pdf.py`
 - [`CITATION.cff`](CITATION.cff) — how to cite this project
 
 ## Running Locally
