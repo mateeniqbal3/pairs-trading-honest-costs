@@ -1,5 +1,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23024360.svg)](https://doi.org/10.5281/zenodo.23024360)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23024360.svg)](https://doi.org/10.5281/zenodo.23024360)
+
 # Pairs Trading with Honest Cost Modeling
 
 [![CI](https://github.com/mateeniqbal3/pairs-trading-honest-costs/actions/workflows/ci.yml/badge.svg)](https://github.com/mateeniqbal3/pairs-trading-honest-costs/actions/workflows/ci.yml)
